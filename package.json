@@ -1,15 +1,18 @@
 {
-  "name": "teste-node",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "tanca-gertec-price-server",
+  "version": "2.0.0",
+  "description": "Servidor de tabela de preços TCP/HTTP para terminais POS Tanca e Gertec",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js"
   },
-  "keywords": [],
+  "keywords": ["tanca", "gertec", "pos", "price-server"],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "net": "^1.0.2"
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "node-cron": "^3.0.3"
   }
 }
