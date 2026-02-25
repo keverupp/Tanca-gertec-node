@@ -87,6 +87,8 @@ CODIGO_BARRAS|DESCRICAO|PRECO|COD_CATEGORIA|
 
 Agradecimento à **Ana Lucia S. Melo** que em 2008 criou o código do Gertec em Java — foi com esse código que o projeto original foi reescrito para Node.js.
 
+Agradecimento a **[Jonas Lacerda](https://github.com/JonasLacerda)** que fez a primeira versão em JavaScript.
+
 Estou lascado sem grana, se te ajudou não esquece de pagar meu cafezinho!
 
 [![Buy Me A Pizza](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20pizza!!&emoji=🍕&slug=caosaquatico&button_colour=5F7FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00)](https://www.buymeacoffee.com/caosaquatico)
