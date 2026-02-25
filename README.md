@@ -1,20 +1,92 @@
 # Tanca-gertec-node
-Aplicação node para terminal de consulta preço tanca 240w e gertec g2
-pode funcionar em outros mais testado somente no tanca 240w
 
-Estou lascado sem grana se te ajudou não esquece de pagar meu cafezinho!
+Servidor Node.js para terminais de consulta de preços Tanca e Gertec.
 
-Para instalar: basta instalar o nodejs, baixar o meu codigo e dar o comando npm i.
+**Testado com:**
 
-Para usar o servidor digite o comando: node servidor
+- Gertec G2E ✅
 
-para cadastrar os produtos so seguir o modelo PRICETAB.TXT
+**Compatibilidade esperada** (mesmo protocolo):
 
-No futuro incremento uma interface de usuario gráfica.
+- Gertec 506E
+- Tanca 240W
 
-A descrição dos produtos deve ter apenas 20 caracteres pois o tanca sao duas linhas de 20 colunas.
-Lembre-se de na hora que configurar o terminal apontar para o ip da maquina que o codigo vai ser instalado.
+---
 
-Agradecer a Ana Lucia S. Melo que em 2008 criou o codigo do gertec em java e foi com esse codigo que eu reescrevi para rodar no nodejs.
+## Deploy com Docker (recomendado)
+
+```bash
+# Copie o exemplo de variáveis
+cp .env.example .env
+# Edite o .env com sua PRICETAB_URL e credenciais
+
+docker compose up --build -d
+```
+
+No **Portainer**, crie uma stack apontando para este repositório e configure as variáveis de ambiente diretamente na interface.
+
+---
+
+## Execução local
+
+```bash
+npm install
+# copie .env.example para .env e preencha
+npm start
+```
+
+---
+
+## Variáveis de ambiente
+
+| Variável | Padrão | Descrição |
+| --- | --- | --- |
+| `TCP_PORT` | `6500` | Porta TCP para os terminais |
+| `HTTP_PORT` | `3000` | Porta HTTP de gerenciamento |
+| `DATA_DIR` | `./data` | Diretório do PRICETAB.TXT (use `/data` no Docker) |
+| `HTTP_API_KEY` | `changeme` | Chave de acesso às rotas HTTP |
+| `PRICETAB_URL` | — | URL de origem do arquivo de preços |
+| `PRICETAB_AUTH_TYPE` | `none` | Autenticação da URL: `none`, `basic`, `bearer`, `header` |
+| `CRON_SCHEDULE` | `0 * * * *` | Agendamento de atualização automática (cron) |
+
+---
+
+## Atualização do PRICETAB.TXT
+
+O servidor busca automaticamente o arquivo de preços na `PRICETAB_URL` conforme o agendamento `CRON_SCHEDULE`. Para disparar manualmente:
+
+```bash
+curl -X POST http://localhost:3000/update -H "X-API-Key: sua_chave"
+```
+
+---
+
+## Formato do PRICETAB.TXT
+
+```text
+CODIGO_BARRAS|DESCRICAO|PRECO|COD_CATEGORIA|
+16229906191|CURRY EM PASTA GREEN|44,51|467|
+```
+
+- Descrição: máximo 20 caracteres (Tanca: 2 linhas × 20 colunas)
+- Preço: separador decimal com vírgula (ex: `44,51`)
+
+---
+
+## Rotas HTTP
+
+| Método | Rota | Auth | Descrição |
+| --- | --- | --- | --- |
+| `GET` | `/health` | — | Healthcheck (Docker/Portainer) |
+| `GET` | `/status` | `X-API-Key` | Última atualização e tamanho do arquivo |
+| `POST` | `/update` | `X-API-Key` | Dispara atualização manual do PRICETAB |
+
+---
+
+## Créditos
+
+Agradecimento à **Ana Lucia S. Melo** que em 2008 criou o código do Gertec em Java — foi com esse código que o projeto original foi reescrito para Node.js.
+
+Estou lascado sem grana, se te ajudou não esquece de pagar meu cafezinho!
 
 [![Buy Me A Pizza](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20pizza!!&emoji=🍕&slug=caosaquatico&button_colour=5F7FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00)](https://www.buymeacoffee.com/caosaquatico)
