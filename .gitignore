@@ -1,9 +1,6 @@
 # Dependências
 node_modules/
 
-# Variáveis de ambiente (contém senhas e tokens)
-.env
-
 # Dados em runtime (gerenciados via volume Docker em produção)
 data/
 

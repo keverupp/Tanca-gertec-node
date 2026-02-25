@@ -4,10 +4,19 @@ services:
     image: tanca-gertec:latest
     container_name: tanca-gertec
     restart: unless-stopped
-    env_file:
-      - .env
     environment:
       - DATA_DIR=/data
+      - TCP_PORT=${TCP_PORT:-6500}
+      - HTTP_PORT=${HTTP_PORT:-3000}
+      - HTTP_API_KEY=${HTTP_API_KEY:-changeme}
+      - PRICETAB_URL=${PRICETAB_URL}
+      - PRICETAB_AUTH_TYPE=${PRICETAB_AUTH_TYPE:-none}
+      - PRICETAB_AUTH_USER=${PRICETAB_AUTH_USER}
+      - PRICETAB_AUTH_PASS=${PRICETAB_AUTH_PASS}
+      - PRICETAB_AUTH_TOKEN=${PRICETAB_AUTH_TOKEN}
+      - PRICETAB_AUTH_HEADER_NAME=${PRICETAB_AUTH_HEADER_NAME}
+      - PRICETAB_AUTH_HEADER_VALUE=${PRICETAB_AUTH_HEADER_VALUE}
+      - CRON_SCHEDULE=${CRON_SCHEDULE:-0 * * * *}
     ports:
       - "${TCP_PORT:-6500}:${TCP_PORT:-6500}"
       - "${HTTP_PORT:-3000}:${HTTP_PORT:-3000}"
