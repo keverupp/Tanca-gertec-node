@@ -1,6 +1,14 @@
-# Tanca-gertec-node
+# Consulta-preco-server
 
 Servidor Node.js para terminais de consulta de preços Tanca e Gertec.
+
+## Funcionalidades
+
+- Servidor TCP para consulta de preços por código de barras (compatível com protocolo Tanca/Gertec)
+- Download automático agendado do arquivo de preços (remoto salvo localmente como `PRICETAB.TXT`)
+- Atualização pontual do `PRICETAB.TXT` via API HTTP (`POST /update`)
+- Healthcheck e status operacional via HTTP (`/health` e `/status`)
+- Controle de acesso por `X-API-Key` para endpoints administrativos
 
 **Testado com:**
 
@@ -59,19 +67,8 @@ O servidor busca automaticamente o arquivo de preços na `PRICETAB_URL` conforme
 curl -X POST http://localhost:3000/update -H "X-API-Key: sua_chave"
 ```
 
----
+Observação: no projeto o arquivo local é persistido como `PRICETAB.TXT` (maiúsculo). Se a origem remota usar `pricetab.txt`, o conteúdo é baixado normalmente pela URL configurada.
 
-## Formato do PRICETAB.TXT
-
-```text
-CODIGO_BARRAS|DESCRICAO|PRECO|COD_CATEGORIA|
-16229906191|CURRY EM PASTA GREEN|44,51|467|
-```
-
-- Descrição: máximo 20 caracteres (Tanca: 2 linhas × 20 colunas)
-- Preço: separador decimal com vírgula (ex: `44,51`)
-
----
 
 ## Rotas HTTP
 
@@ -80,6 +77,18 @@ CODIGO_BARRAS|DESCRICAO|PRECO|COD_CATEGORIA|
 | `GET` | `/health` | — | Healthcheck (Docker/Portainer) |
 | `GET` | `/status` | `X-API-Key` | Última atualização e tamanho do arquivo |
 | `POST` | `/update` | `X-API-Key` | Dispara atualização manual do PRICETAB |
+
+### Exemplo de retorno `/status`
+
+```json
+{
+  "lastUpdate": "2026-02-26T18:20:00.000Z",
+  "lastStatus": "updated",
+  "pricetabPath": "./data/PRICETAB.TXT",
+  "cronSchedule": "0 * * * *",
+  "fileSize": 123456
+}
+```
 
 ---
 
